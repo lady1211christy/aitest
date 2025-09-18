@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 應用 3 分鐘含金量小檢測</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+        }
+        .btn-gradient {
+            background: linear-gradient(to right, #3b82f6 0%, #9333ea 100%);
+        }
+        .btn-gradient:hover {
+            background: linear-gradient(to right, #2563eb 0%, #7c3aed 100%);
+        }
+        .card-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+        }
+        .progress-bar {
+            background: linear-gradient(to right, #3b82f6 0%, #9333ea 100%);
+        }
+        .scale-hover:hover {
+            transform: scale(1.05);
+        }
+        .scale-102:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <!-- Start Page -->
+    <div id="startPage" class="min-h-screen gradient-bg flex flex-col items-center justify-center p-6">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
+            <div class="mb-8">
+                <div class="w-20 h-20 btn-gradient rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2L3 7v11a1 1 0 001 1h3a1 1 0 001-1v-5h4v5a1 1 0 001 1h3a1 1 0 001-1V7l-7-5z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800 mb-2">準備好了嗎？</h1>
+                <p class="text-lg font-semibold text-blue-500">AI 應用 3 分鐘含金量小檢測</p>
+            </div>
+
+            <div class="space-y-4 mb-8 text-left">
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-blue-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                    </svg>
+                    <p class="text-gray-600">只需 3 分鐘，完成 15 道題目</p>
+                </div>
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-green-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 20V10M12 20V4M6 20v-6"></path>
+                    </svg>
+                    <p class="text-gray-600">測試你在 5 個層級的 AI 應用能力</p>
+                </div>
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-purple-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6"></path>
+                    </svg>
+                    <p class="text-gray-600">獲得專屬成就卡與成長建議</p>
+                </div>
+            </div>
+
+            <button onclick="showNamePage()" class="w-full btn-gradient text-white py-4 px-6 rounded-xl font-semibold text-lg hover:opacity-90 transition-all duration-300 transform scale-hover flex items-center justify-center">
+                開始測驗
+                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12,5 19,12 12,19"></polyline>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Name Input Page -->
+    <div id="namePage" class="min-h-screen gradient-bg flex-col items-center justify-center p-6" style="display: none;">
+        <div class="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <circle cx="12" cy="12" r="10"></circle>
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800 mb-2">輸入你的暱稱</h2>
+                <p class="text-gray-600">將顯示在成就卡上</p>
+            </div>
+
+            <input type="text" id="userNameInput" placeholder="請輸入暱稱" maxlength="20" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none text-lg mb-6 text-center">
+
+            <button onclick="startQuiz()" id="startQuizBtn" disabled class="w-full btn-gradient text-white py-4 px-6 rounded-xl font-semibold text-lg hover:opacity-90 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform scale-hover">
+                進入測驗
+            </button>
+        </div>
+    </div>
+
+    <!-- Quiz Page -->
+    <div id="quizPage" class="min-h-screen gradient-bg p-4" style="display: none;">
+        <!-- Progress Bar -->
+        <div class="max-w-md mx-auto mb-6">
+            <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <polygon points="13,2 3,14 12,14 11,22 21,10 12,10"></polygon>
+                    </svg>
+                    <span class="text-sm font-medium text-gray-600" id="questionProgress">
+                        第 1 / 15 題
+                    </span>
+                </div>
+                <span class="text-sm font-medium text-blue-500" id="timeLeft">
+                    剩餘 3:00
+                </span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
+                <div id="progressBar" class="progress-bar h-3 rounded-full transition-all duration-300" style="width: 6.67%"></div>
+            </div>
+
+            <!-- Current Level Display -->
+            <div class="text-center mb-4">
+                <span id="currentLevelBadge" class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium text-white">
+                    <span class="mr-2">🔍</span>
+                    基礎互動
+                </span>
+            </div>
+
+            <!-- Level Progress Indicators -->
+            <div class="flex justify-center space-x-2 mb-4" id="levelIndicators">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- Question -->
+        <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-6 leading-relaxed" id="questionText">
+                <!-- Question text will be inserted here -->
+            </h3>
+
+            <div class="space-y-3" id="answerOptions">
+                <!-- Answer options will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Page -->
+    <div id="resultPage" class="min-h-screen gradient-bg p-4 py-8" style="display: none;">
+        <div class="max-w-md mx-auto space-y-6">
+            <!-- Achievement Card -->
+            <div class="card-gradient rounded-2xl shadow-2xl p-6 text-white relative overflow-hidden">
+                <div class="absolute top-4 right-4">
+                    <svg class="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2L3 7v11a1 1 0 001 1h3a1 1 0 001-1v-5h4v5a1 1 0 001 1h3a1 1 0 001-1V7l-7-5z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+
+                <div class="text-center pt-4">
+                    <h2 class="text-2xl font-bold mb-2" id="resultUserName"></h2>
+                    <div class="text-lg font-semibold mb-2" id="resultRoleName"></div>
+                    <div class="text-3xl font-bold text-yellow-400 mb-4" id="resultScore">0 分</div>
+                    <p class="text-sm text-gray-300 mb-4">AI 應用含金量小檢測</p>
+                </div>
+
+                <!-- Level Badges -->
+                <div class="flex justify-center space-x-2 mb-4" id="resultLevelBadges">
+                    <!-- Level badges will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Detailed Analysis -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center mb-4">
+                    <svg class="w-6 h-6 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M18 20V10M12 20V4M6 20v-6"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-gray-800">層級分析</h3>
+                </div>
+
+                <div class="space-y-3 mb-6" id="levelAnalysis">
+                    <!-- Level analysis will be inserted here -->
+                </div>
+
+                <div class="p-4 rounded-xl bg-blue-50 border border-blue-200">
+                    <h4 class="font-semibold mb-2 text-blue-800">📍 下一步建議</h4>
+                    <p class="text-sm text-blue-700" id="suggestion"></p>
+                </div>
+            </div>
+
+            <!-- Course Recommendations -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex items-center mb-4">
+                    <svg class="w-6 h-6 text-purple-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <h3 class="text-lg font-semibold text-gray-800">課程推薦</h3>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="p-4 bg-purple-50 rounded-xl border border-purple-200 cursor-pointer hover:bg-purple-100 transition-colors" onclick="window.open('https://www.accupass.com/event/2509141536331868520697', '_blank')">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold text-purple-800">9/27 台中班</div>
+                                    <div class="text-sm text-purple-600">AI 系統化應用</div>
+                                </div>
+                            </div>
+                            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-700 transition-colors">
+                                立即報名
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-green-50 rounded-xl border border-green-200 cursor-pointer hover:bg-green-100 transition-colors" onclick="window.open('https://www.accupass.com/event/2509140953152591452460', '_blank')">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                <div>
+                                    <div class="font-semibold text-green-800">9/28 台北班</div>
+                                    <div class="text-sm text-green-600">AI 超速品牌工作流</div>
+                                </div>
+                            </div>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors">
+                                立即報名
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-4">
+                <button onclick="downloadCard()" class="w-full btn-gradient text-white py-3 px-4 rounded-xl font-semibold hover:opacity-90 transition-all duration-300 flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    下載成就卡
+                </button>
+            </div>
+
+            <!-- Restart Button -->
+            <button onclick="restartQuiz()" class="w-full bg-white text-gray-600 py-3 px-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors border-2 border-gray-200">
+                重新測驗
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentPage = 'start';
+        let userName = '';
+        let currentQuestion = 0;
+        let answers = [];
+        let timeLeft = 180; // 3 minutes
+        let results = null;
+        let timer = null;
+
+        // Questions array
+        const questions = [
+            // 第一層｜基礎互動 (0-2)
+            "你使用 AI 時，主要是拿它來快速查找與整理資料？",
+            "當 AI 給你答案後，你會直接結束對話，很少延續上下文深入探討？",
+            "你主要把 AI 當作快速解答問題的工具，較少視為協作夥伴？",
+
+            // 第二層｜工作流應用 (3-5)
+            "你會維持上下文，讓 AI 幫你追蹤或延續專案進度？",
+            "你曾用 AI 整理會議紀錄或專案規劃，並透過多次追問讓內容更完整？",
+            "你覺得 AI 在互動過程中，已經像個小助理，能幫你節省時間？",
+
+            // 第三層｜系統化運作 (6-8)
+            "你會讓 AI 拆解流程，並轉換成 SOP 或準則文件？",
+            "你曾經讓 AI 讀取與整理檔案，並與你進行互動處理？",
+            "你會思考如何把 AI 整合到既有工作系統，而不是只解決單一問題？",
+
+            // 第四層｜自動化應用 (9-11)
+            "你用過 n8n / Zapier 等自動化工具，把 AI 納入固定流程？",
+            "你曾經透過 Vibe Coding 或其他程式工具打造過專屬的小介面？",
+            "你會讓 AI 的交互標準化（固定輸入、固定輸出格式），以提升一致性？",
+
+            // 第五層｜生態化協作 (12-14)
+            "你曾經嘗試串接多個 AI 或系統，讓它們彼此協作？",
+            "你設計過「AI + 人」混合模式，讓不同角色可以分工合作？",
+            "你期待 AI 主動提出優化建議，甚至能自我改善流程？"
+        ];
+
+        // Levels definition
+        const levels = [
+            { id: 1, name: '基礎互動', color: '#FF6B7A', range: [0, 2], icon: '🔍' },
+            { id: 2, name: '工作流應用', color: '#4ECDC4', range: [3, 5], icon: '⚡' },
+            { id: 3, name: '系統化運作', color: '#45B7D1', range: [6, 8], icon: '🔧' },
+            { id: 4, name: '自動化應用', color: '#F7DC6F', range: [9, 11], icon: '🤖' },
+            { id: 5, name: '生態化協作', color: '#C8A2C8', range: [12, 14], icon: '🌐' }
+        ];
+
+        // Answer options
+        const answerOptions = [
+            { id: 1, name: '完全不會 / 幾乎不會', color: '#FF6B7A', score: 1 },
+            { id: 2, name: '偶爾會', color: '#4ECDC4', score: 2 },
+            { id: 3, name: '經常會', color: '#45B7D1', score: 3 },
+            { id: 4, name: '幾乎每次都會', color: '#F7DC6F', score: 4 }
+        ];
+
+        // Role types
+        const roleTypes = [
+            {
+                id: 1,
+                name: '新手探險者',
+                color: '#FF6B7A',
+                description: '你正開始探索 AI 的可能性，建議多嘗試不同的 AI 工具和應用場景。',
+                suggestion: '建議先熟悉基本的 AI 對話技巧，學習如何提出更精準的問題。'
+            },
+            {
+                id: 2,
+                name: '勤奮工匠',
+                color: '#4ECDC4',
+                description: '你已經熟練使用 AI 處理日常工作，可以考慮將經驗系統化和標準化。',
+                suggestion: '可以開始建立自己的 AI 使用模板，並嘗試整合到工作流程中。'
+            },
+            {
+                id: 3,
+                name: '流程駕馭者',
+                color: '#45B7D1',
+                description: '你善於將 AI 整合到工作流程中，建議朝自動化和生態化方向發展。',
+                suggestion: '可以學習自動化工具，開始設計 AI + 人的協作模式。'
+            },
+            {
+                id: 4,
+                name: '策略領航者',
+                color: '#F7DC6F',
+                description: '你已經掌握 AI 的策略應用，可以帶領團隊建立 AI 驅動的工作模式。',
+                suggestion: '可以開始設計企業級的 AI 應用方案，並培訓團隊成員。'
+            }
+        ];
+
+        // Page navigation functions
+        function showNamePage() {
+            document.getElementById('startPage').style.display = 'none';
+            document.getElementById('namePage').style.display = 'flex';
+            currentPage = 'name';
+        }
+
+        function startQuiz() {
+            userName = document.getElementById('userNameInput').value.trim();
+            if (userName) {
+                document.getElementById('namePage').style.display = 'none';
+                document.getElementById('quizPage').style.display = 'block';
+                currentPage = 'quiz';
+                initializeQuiz();
+                startTimer();
+            }
+        }
+
+        function showResultPage() {
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('resultPage').style.display = 'block';
+            currentPage = 'result';
+            stopTimer();
+            setTimeout(() => {
+                calculateResults();
+            }, 100);
+        }
+
+        function restartQuiz() {
+            currentPage = 'start';
+            userName = '';
+            currentQuestion = 0;
+            answers = [];
+            timeLeft = 180;
+            results = null;
+            stopTimer();
+
+            document.getElementById('resultPage').style.display = 'none';
+            document.getElementById('startPage').style.display = 'flex';
+            document.getElementById('userNameInput').value = '';
+            updateStartButton();
+        }
+
+        // Timer functions
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimeDisplay();
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    showResultPage();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        function updateTimeDisplay() {
+            const mins = Math.floor(timeLeft / 60);
+            const secs = timeLeft % 60;
+            document.getElementById('timeLeft').textContent = `剩餘 ${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Quiz functions
+        function initializeQuiz() {
+            updateQuizDisplay();
+            updateLevelIndicators();
+        }
+
+        function updateQuizDisplay() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            const currentLevel = getCurrentLevel(currentQuestion);
+
+            document.getElementById('questionProgress').textContent = `第 ${currentQuestion + 1} / ${questions.length} 題`;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('questionText').textContent = questions[currentQuestion];
+
+            // Update current level badge
+            const badge = document.getElementById('currentLevelBadge');
+            badge.style.backgroundColor = currentLevel.color;
+            badge.innerHTML = `<span class="mr-2">${currentLevel.icon}</span>${currentLevel.name}`;
+
+            // Update answer options
+            const optionsContainer = document.getElementById('answerOptions');
+            optionsContainer.innerHTML = '';
+
+            answerOptions.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'w-full p-4 text-left rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-200 transform scale-102';
+                button.style.backgroundColor = `${option.color}15`;
+                button.style.borderColor = `${option.color}50`;
+                button.innerHTML = `<span class="font-semibold" style="color: ${option.color}">${option.name}</span>`;
+                button.onclick = () => handleAnswer(option.id);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function updateLevelIndicators() {
+            const container = document.getElementById('levelIndicators');
+            container.innerHTML = '';
+
+            levels.forEach(level => {
+                const questionsInLevel = [];
+                for (let i = level.range[0]; i <= level.range[1]; i++) {
+                    questionsInLevel.push(i);
+                }
+
+                const answeredInLevel = questionsInLevel.filter(i => answers[i] !== undefined).length;
+                const totalInLevel = questionsInLevel.length;
+                const fillPercentage = (answeredInLevel / totalInLevel) * 100;
+
+                const indicator = document.createElement('div');
+                indicator.className = 'text-center';
+                indicator.innerHTML = `
+                    <div class="w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center mb-1 relative overflow-hidden">
+                        <div class="absolute bottom-0 left-0 right-0 transition-all duration-300" style="background-color: ${level.color}; height: ${fillPercentage}%"></div>
+                        <span class="text-xs font-bold text-gray-600 relative z-10">${level.id}</span>
+                    </div>
+                    <span class="text-xs text-gray-500">${answeredInLevel}/${totalInLevel}</span>
+                `;
+                container.appendChild(indicator);
+            });
+        }
+
+        function getCurrentLevel(questionIndex) {
+            return levels.find(level =>
+                questionIndex >= level.range[0] && questionIndex <= level.range[1]
+            );
+        }
+
+        function handleAnswer(optionId) {
+            answers.push(optionId);
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                updateQuizDisplay();
+                updateLevelIndicators();
+            } else {
+                showResultPage();
+            }
+        }
+
+        // Result calculation functions
+        function calculateResults() {
+            const roleCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+            let weightedScore = 0;
+
+            // Calculate weighted score based on level progression
+            answers.forEach((answer, index) => {
+                roleCounts[answer]++;
+
+                // Determine which level this question belongs to
+                const currentLevel = getCurrentLevel(index);
+                const levelWeight = currentLevel.id; // Level 1 = weight 1, Level 5 = weight 5
+
+                // For Level 1 (基礎互動), reverse scoring only for questions 2-3 (index 1-2)
+                let adjustedAnswer = answer;
+                if (currentLevel.id === 1 && (index === 1 || index === 2)) {
+                    // Reverse score: 1->4, 2->3, 3->2, 4->1
+                    // 完全不會/幾乎不會 -> 高分 (進階行為)
+                    // 幾乎每次都會 -> 低分 (基礎行為)
+                    adjustedAnswer = 5 - answer;
+                }
+                // Question 1 (index 0) keeps normal scoring: 快速查找資料是基礎能力，做得多得分高
+
+                weightedScore += adjustedAnswer * levelWeight;
+            });
+
+            // Convert to 100-point scale
+            // Max possible score: 15 questions × 4 max points × average weight (3)
+            const maxPossibleScore = 15 * 4 * 3; // 180
+            const totalScore = Math.round((weightedScore / maxPossibleScore) * 100);
+
+            // Determine primary role based on weighted total score (out of 100)
+            let primaryRoleId;
+            if (totalScore <= 35) {
+                primaryRoleId = 1; // 新手探險者
+            } else if (totalScore <= 55) {
+                primaryRoleId = 2; // 勤奮工匠
+            } else if (totalScore <= 75) {
+                primaryRoleId = 3; // 流程駕馭者
+            } else {
+                primaryRoleId = 4; // 策略領航者
+            }
+
+            const primaryRole = roleTypes.find(role => role.id === primaryRoleId);
+            const levelBadges = calculateLevelBadges();
+
+            results = {
+                totalScore,
+                roleCounts,
+                primaryRole,
+                levelBadges,
+                answers: answers
+            };
+
+            displayResults();
+        }
+
+        function calculateLevelBadges() {
+            const levelScores = {};
+
+            levels.forEach(level => {
+                let levelTotal = 0;
+                let yesCount = 0;
+                const questionsInLevel = level.range[1] - level.range[0] + 1;
+
+                for (let i = level.range[0]; i <= level.range[1]; i++) {
+                    if (answers[i]) {
+                        levelTotal += answers[i];
+                        if (answers[i] >= 3) yesCount++; // "經常會" 或 "幾乎每次都會" 算作 "是"
+                    }
+                }
+
+                // Calculate weighted percentage for this level
+                const maxLevelScore = questionsInLevel * 4; // 3題 * 4分滿分
+                const levelPercentage = Math.round((levelTotal / maxLevelScore) * 100);
+
+                levelScores[level.id] = {
+                    total: levelTotal,
+                    yesCount: yesCount,
+                    maxQuestions: questionsInLevel,
+                    percentage: levelPercentage
+                };
+            });
+
+            return levelScores;
+        }
+
+        function displayResults() {
+            // Update achievement card
+            document.getElementById('resultUserName').textContent = userName;
+            document.getElementById('resultRoleName').textContent = results.primaryRole.name;
+            document.getElementById('resultRoleName').style.color = results.primaryRole.color;
+            document.getElementById('resultScore').textContent = `${results.totalScore} 分`;
+            document.getElementById('suggestion').textContent = results.primaryRole.suggestion;
+
+            // Update level badges
+            const badgesContainer = document.getElementById('resultLevelBadges');
+            badgesContainer.innerHTML = '';
+
+            levels.forEach(level => {
+                const badge = results.levelBadges[level.id];
+                const isActive = badge.yesCount >= 2; // 至少2題回答"經常會"以上
+
+                const badgeElement = document.createElement('div');
+                badgeElement.className = `w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold border-2 ${
+                    isActive
+                        ? 'border-yellow-400 text-yellow-400'
+                        : 'border-gray-500 text-gray-500'
+                }`;
+                badgeElement.style.backgroundColor = isActive ? `${level.color}30` : 'transparent';
+                badgeElement.textContent = level.icon;
+                badgesContainer.appendChild(badgeElement);
+            });
+
+            // Update level analysis
+            const analysisContainer = document.getElementById('levelAnalysis');
+            analysisContainer.innerHTML = '';
+
+            levels.forEach(level => {
+                const badge = results.levelBadges[level.id];
+                const analysisElement = document.createElement('div');
+                analysisElement.className = 'flex items-center justify-between';
+                analysisElement.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="mr-2">${level.icon}</span>
+                        <span class="text-sm font-medium">${level.name}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-600 mr-2">${badge.yesCount}/${badge.maxQuestions}</span>
+                        <div class="w-16 bg-gray-200 rounded-full h-2">
+                            <div class="h-2 rounded-full transition-all duration-500" style="background-color: ${level.color}; width: ${badge.percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+                analysisContainer.appendChild(analysisElement);
+            });
+        }
+
+        // Utility functions
+        function updateStartButton() {
+            const input = document.getElementById('userNameInput');
+            const button = document.getElementById('startQuizBtn');
+
+            input.addEventListener('input', function() {
+                button.disabled = !this.value.trim();
+            });
+        }
+
+        function downloadCard() {
+            if (!results) return;
+
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 600;
+            canvas.height = 400;
+
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#1e40af');
+            gradient.addColorStop(1, '#3730a3');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Award icon background circle
+            ctx.fillStyle = '#FFC107';
+            ctx.beginPath();
+            ctx.arc(canvas.width - 60, 60, 25, 0, 2 * Math.PI);
+            ctx.fill();
+
+            // Award icon (simplified star)
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('★', canvas.width - 60, 70);
+
+            // User name
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'bold 36px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(userName, canvas.width / 2, 120);
+
+            // Role name
+            ctx.fillStyle = results.primaryRole.color;
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText(results.primaryRole.name, canvas.width / 2, 160);
+
+            // Score
+            ctx.fillStyle = '#FFC107';
+            ctx.font = 'bold 48px Arial';
+            ctx.fillText(`${results.totalScore} 分`, canvas.width / 2, 220);
+
+            // Certification text
+            ctx.fillStyle = '#CBD5E0';
+            ctx.font = '16px Arial';
+            ctx.fillText('AI 應用含金量小檢測', canvas.width / 2, 250);
+
+            // Level badges
+            const badgeY = 300;
+            const badgeSpacing = 80;
+            const startX = (canvas.width - (levels.length - 1) * badgeSpacing) / 2;
+
+            levels.forEach((level, index) => {
+                const badge = results.levelBadges[level.id];
+                const isActive = badge.yesCount >= 2;
+                const x = startX + index * badgeSpacing;
+
+                // Badge circle
+                ctx.strokeStyle = isActive ? '#FFC107' : '#6B7280';
+                ctx.fillStyle = isActive ? level.color + '30' : 'transparent';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(x, badgeY, 25, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.stroke();
+
+                // Badge emoji/icon
+                ctx.fillStyle = isActive ? '#FFC107' : '#6B7280';
+                ctx.font = '20px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(level.icon, x, badgeY + 7);
+            });
+
+            // Date stamp
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('zh-TW');
+            ctx.fillStyle = '#CBD5E0';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'right';
+            ctx.fillText(`測試日期：${dateStr}`, canvas.width - 20, canvas.height - 20);
+
+            // Convert to blob and download
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${userName}_AI應用成就卡_${dateStr}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }
+
+        function shareResults() {
+            if (!results) return;
+
+            // Generate share text
+            const shareText = generateShareText();
+
+            // Try to use Web Share API if available (mobile devices)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'AI 應用含金量檢測結果',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('分享取消或失敗:', err);
+                    fallbackShare(shareText);
+                });
+            } else {
+                // Fallback for desktop browsers
+                fallbackShare(shareText);
+            }
+        }
+
+        function generateShareText() {
+            const levelBadgeText = levels.map(level => {
+                const badge = results.levelBadges[level.id];
+                const isActive = badge.yesCount >= 2;
+                return `${level.icon}${level.name}: ${isActive ? '✅' : '⚪'}`;
+            }).join(' | ');
+
+            return `🎯 我完成了 AI 應用含金量檢測！
+
+👤 ${userName}
+🏆 ${results.primaryRole.name}
+💯 總分：${results.totalScore}/100 分
+
+📊 層級表現：
+${levelBadgeText}
+
+💡 ${results.primaryRole.suggestion}
+
+立即檢測你的 AI 應用能力！`;
+        }
+
+        function fallbackShare(shareText) {
+            // Create modal for sharing options
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">分享結果</h3>
+                        <button onclick="closeShareModal()" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="space-y-3 mb-6">
+                        <button onclick="shareToFacebook()" class="w-full flex items-center justify-center bg-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-blue-700 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                            分享到 Facebook
+                        </button>
+
+                        <button onclick="shareToLine()" class="w-full flex items-center justify-center bg-green-500 text-white py-3 px-4 rounded-xl font-semibold hover:bg-green-600 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.63-.63h2.386c.346 0 .627.285.627.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771z"/>
+                            </svg>
+                            分享到 LINE
+                        </button>
+
+                        <button onclick="copyShareText()" class="w-full flex items-center justify-center bg-gray-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-gray-700 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                            </svg>
+                            複製文字內容
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-xl p-4 max-h-40 overflow-y-auto">
+                        <p class="text-sm text-gray-600 whitespace-pre-line">${shareText}</p>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            window.currentShareModal = modal;
+            window.currentShareText = shareText;
+        }
+
+        function closeShareModal() {
+            if (window.currentShareModal) {
+                document.body.removeChild(window.currentShareModal);
+                window.currentShareModal = null;
+                window.currentShareText = null;
+            }
+        }
+
+        function shareToFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(window.currentShareText);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+            closeShareModal();
+        }
+
+        function shareToLine() {
+            const text = encodeURIComponent(window.currentShareText + '\n\n' + window.location.href);
+            window.open(`https://social-plugins.line.me/lineit/share?url=${text}`, '_blank');
+            closeShareModal();
+        }
+
+        async function copyShareText() {
+            try {
+                await navigator.clipboard.writeText(window.currentShareText);
+
+                // Show success message
+                const button = event.target.closest('button');
+                const originalText = button.innerHTML;
+                button.innerHTML = `
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                    已複製！
+                `;
+                button.className = button.className.replace('bg-gray-600 hover:bg-gray-700', 'bg-green-600 hover:bg-green-700');
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.className = button.className.replace('bg-green-600 hover:bg-green-700', 'bg-gray-600 hover:bg-gray-700');
+                }, 2000);
+
+            } catch (err) {
+                console.error('複製失敗:', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = window.currentShareText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('內容已複製到剪貼簿！');
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStartButton();
+        });
+    </script>
+</body>
+</html>
